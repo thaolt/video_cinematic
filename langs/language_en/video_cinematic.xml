@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefix name="video_cinematic" label="Video Cinematic" language_tag="en" language_label="English">
+	<key name="cinematic_mode">
+		<value>Cinematic Mode</value>
+	</key>
+</prefix>

@@ -1,0 +1,33 @@
+#CinemaOn{
+    background: #000; 
+    height: 100%; 
+    width: 100%; 
+    position: fixed; 
+    top: 0px; 
+    left: 0px; 
+    z-index: 1000;
+} 
+
+#CinemaLogo {
+    position: absolute;
+    left:15px; display: none;
+    height: 38px !important;
+    width: 150px !important;
+    margin-top: -10px;
+    background: transparent url(../img/songphi.gif) no-repeat center left;
+}
+
+#CinemaLogo a {
+    display:none;
+}
+
+#cinematic_close_btn {
+    display: none; 
+    margin-top: -28px; 
+    margin-right: -28px; 
+    float:right; 
+    width: 29px !important;
+    height: 29px !important;
+    z-index: 1002;
+    background: transparent url(../img/round_close_button.png) no-repeat top left;
+}
