@@ -3,4 +3,55 @@
 	<key name="cinematic_mode">
 		<value>Cinematic Mode</value>
 	</key>
+	<key name="admin_config">
+		<value>Video Cinematic Settings</value>
+	</key>
+	<key name="admin_menu_general">
+		<value>General</value>
+	</key>
+	<key name="general_settings">
+		<value>Common settings</value>
+	</key>
+	<key name="preset_settings">
+		<value>Preset</value>
+	</key>
+	<key name="preset_full">
+		<value>Full</value>
+	</key>
+	<key name="preset_lite">
+		<value>Lite</value>
+	</key>
+	<key name="preset_settings_desc">
+		<value>Full preset have close button, border color, logo mark</value>
+	</key>
+	<key name="config_boder_color">
+		<value>Border color</value>
+	</key>
+	<key name="borderColor_settings_desc">
+		<value>Border color of Video player in Cinematic mode</value>
+	</key>
+	<key name="displayLogo_settings">
+		<value>Display Logo?</value>
+	</key>
+	<key name="yes">
+		<value>Yes</value>
+	</key>
+	<key name="no">
+		<value>No</value>
+	</key>
+	<key name="displayLogo_settings_desc">
+		<value>Choose whether or not to display logo mark</value>
+	</key>
+	<key name="logoFile_settings">
+		<value>Logo Image</value>
+	</key>
+	<key name="clear_current_image">
+		<value>Clear current image</value>
+	</key>
+	<key name="logoFile_settings_desc">
+		<value>Upload an image from your computer</value>
+	</key>
+	<key name="btn_edit">
+		<value>Save</value>
+	</key>
 </prefix>

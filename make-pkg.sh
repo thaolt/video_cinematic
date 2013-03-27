@@ -11,7 +11,7 @@ mkdir $DIR_BUILD
 cd $DIR_BUILD
 cp ../*.* .
 rm make-pkg.sh
-cp -r ../classes ../controllers ../docs ../static ../update ../views .
+cp -r ../classes ../controllers ../static ../update ../views .
 
 cd $DIR_LANGS
 zip -r $FILE_LANGS_ZIP ./*

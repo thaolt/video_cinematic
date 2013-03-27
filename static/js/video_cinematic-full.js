@@ -24,7 +24,7 @@ function cinematic_on() {
 	$('.ow_video_player').css('left', '50%');
 	$('.ow_video_player').css('margin-top', '-' + (parseInt($('.ow_video_player').css('height'))/2+20) + 'px');
 	$('.ow_video_player').css('margin-left', '-' + (parseInt($('.ow_video_player').css('width'))/2) + 'px');
-	$('.ow_video_player').css('background-color', '#dddddd');
+	$('.ow_video_player').css('background-color', video_cinematic_borderColor);
 	$('.ow_video_player').css('border-radius', '5px 5px 5px 5px');
 	$('.ow_video_player').css('padding', '12px');
 	$('#CinemaLogo').toggle();
