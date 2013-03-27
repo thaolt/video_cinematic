@@ -54,4 +54,7 @@
 	<key name="btn_edit">
 		<value>Save</value>
 	</key>
+	<key name="full_preset_options">
+		<value>Full Preset Options</value>
+	</key>
 </prefix>
