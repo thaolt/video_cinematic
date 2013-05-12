@@ -15,6 +15,7 @@ cp -r ../classes ../controllers ../static ../update ../views .
 
 cd $DIR_LANGS
 zip -r $FILE_LANGS_ZIP ./*
+rm -f $DIR_BASE/langs.zip
 mv $FILE_LANGS_ZIP $DIR_BUILD/
 
 cd $DIR_BASE
