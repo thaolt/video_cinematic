@@ -6,6 +6,7 @@ DIR_LANGS=$DIR_BASE/langs
 FILE_LANGS_ZIP=$DIR_BASE/langs/langs.zip
 FILE_VIDEOCINEMATIC_ZIP=$DIR_BASE/video_cinematic.zip
 
+rm -f $DIR_BASE/langs.zip
 mkdir $DIR_BUILD
 
 cd $DIR_BUILD
@@ -15,7 +16,6 @@ cp -r ../classes ../controllers ../static ../update ../views .
 
 cd $DIR_LANGS
 zip -r $FILE_LANGS_ZIP ./*
-rm -f $DIR_BASE/langs.zip
 mv $FILE_LANGS_ZIP $DIR_BUILD/
 
 cd $DIR_BASE
