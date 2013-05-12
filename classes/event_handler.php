@@ -5,6 +5,10 @@
  */
 class VIDEO_CINEMATIC_CLASS_EventHandler {
 
+	public static function on_view_video_list() {
+
+	}
+
 	static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
 
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
@@ -14,7 +18,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		$onloadJsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticDir().'js'.DS.'onload_script-' . $configs['preset'] . '.js';
 		$imgsrcCloseButton = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'img/' . 'round_close_button.png';
 
-		$imgLogo = 'none';
+		$imgLogo = '';
 		if ( !empty( $configs['logoFile'] ) )
 			$imgLogo = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getUserFilesUrl() . $configs['logoFile'];
 
@@ -24,12 +28,15 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$appendContent = '
 			<!--Cinema Mode-->
-			<div style="display: none;" id="CinemaOn"></div>
 
 			<script type="text/javascript">
-			var oldBorderRadius, oldBackgroundColor, oldPadding, oldZindex;
+			var oldBorderRadius, oldBackgroundColor, oldPadding, oldZindex, oldOverflow;
 			var video_cinematic_borderColor = "' . $configs['borderColor'] . '";
 			var video_cinematic_imgLogo = "' . $imgLogo . '";
+
+			$(document).ready(function(){
+				// $(\'body\').append(\'<div style="display: none;" id="CinemaOn"></div>\');
+			});
 
 			'  . file_get_contents( $onloadJsFile ) . '
 			</script>
@@ -41,7 +48,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				array(
 					'href' => 'javascript://',
 					'id' => 'CinemaLogo',
-					'label' => 'Powered By',
+					'label' => 'Powered By SONGPHI.NET',
 				)
 			);
 		}

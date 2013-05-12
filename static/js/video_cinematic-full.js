@@ -11,14 +11,16 @@ function cinematic_off() {
 	$('.ow_video_player').css('border-radius', oldBorderRadius);
 	$('.ow_video_player').css('padding', oldPadding);
 	$('.ow_video_player').css('z-index', oldZindex);
+	$('.ow_video_player').css('overflow', oldOverflow);
 	$('#CinemaLogo').hide();
 }
 
 function cinematic_on() {
 	$('#cinematic_close_btn').css('display', 'inline');
 	$('#CinemaOn').toggle();
-	$('#CinemaOn').fadeTo(0, .9);
+	$('#CinemaOn').fadeTo(0, .85);
 	$('.ow_video_player').css('z-index', '1001');
+	$('.ow_video_player').css('overflow', 'visible');
 	$('.ow_video_player').css('position', 'fixed');
 	$('.ow_video_player').css('top', '50%');
 	$('.ow_video_player').css('left', '50%');
@@ -29,4 +31,5 @@ function cinematic_on() {
 	$('.ow_video_player').css('padding', '12px');
 	$('#CinemaLogo').toggle();
 	$('#CinemaLogo').fadeTo(0, 1);
+	
 }

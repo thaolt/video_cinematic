@@ -57,4 +57,7 @@
 	<key name="full_preset_options">
 		<value>Full Preset Options</value>
 	</key>
+	<key name="settings_updated">
+		<value>Video Cinematic settings have been updated</value>
+	</key>
 </prefix>
