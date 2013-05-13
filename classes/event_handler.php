@@ -46,10 +46,11 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.pack.js' );
 
-		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.css' );
+		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.buttons.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
 		OW::getDocument()->addOnloadScript('
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery");
+			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("title","Video Cinematic Player");
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").fancybox({
 				arrows: false,
 				padding : 15,
@@ -57,24 +58,36 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				preload : false,
 				scrolling : "no",
 				maxWidth : 840,
-				margin : [20, 60, 80, 60],
+				minHeight : 510,
+				margin : [20, 60, 40, 60],
 				type: "ajax",
 				mouseWheel : false,
 				helpers : {
-					title : { type : "inside" },
-					buttons : {}
+					title : { 
+						type : "inside",
+						position : "bottom"
+					},
 				},
-				beforeLoad : function(){
-					//var url= $(this.element).attr("href").replace("/video/view","/video/cinematic-view");
-					//this.href = url;
+				beforeShow : function(){
+					var currentTitle = new String(this.title);
+					this.title = \'<div><span>\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li>\';
 				}
 			});
 		');
 	}
 
 	public static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
-		if (OW::getRequest()->isAjax())
+		if (OW::getRequest()->isAjax()) {
+			$event->add(
+				array(
+					'href' => 'http://',
+					'id' => '',
+					'class' => '',
+					'label' => OW::getLanguage()->text( 'video_cinematic', 'view_full_page' )
+				)
+			);
 			return;
+		}
 
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
 
