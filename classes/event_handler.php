@@ -4,12 +4,77 @@
  *
  */
 class VIDEO_CINEMATIC_CLASS_EventHandler {
+	const ON_COLLECT_VIDEO_TOOLBAR = 'video.collect_video_toolbar_items';
 
-	public static function on_view_video_list() {
-
+	/**
+	 * 
+	 */
+	public static function getRoute() {
+		return OW::getRouter()->route();
 	}
 
-	static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
+	/**
+	 * 
+	 */
+	public static function isRoute( $controller, $action = null ) {
+		$route = self::getRoute();
+		if ( $route["controller"] == $controller ) {
+			if ( $route["action"] == $action || $action==null ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static function on_ajax_video_view() {
+		if (!self::isRoute('VIDEO_CTRL_Video','view'))
+			return;
+		if (!OW::getRequest()->isAjax())
+			return;
+
+		$body = OW::getDocument()->getBody();
+
+		exit($body);
+	}
+
+	public static function on_view_video_list() {
+		if (!self::isRoute('VIDEO_CTRL_Video','viewList'))
+			return;
+
+		$videoUrlPrefix = OW::getRouter()->urlForRoute('view_clip' , array('id'=>'') );
+
+		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.css' );
+		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.pack.js' );
+
+		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.css' );
+		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
+		OW::getDocument()->addOnloadScript('
+			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery");
+			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").fancybox({
+				arrows: false,
+				padding : 15,
+				//margin : 20,
+				preload : false,
+				scrolling : "no",
+				maxWidth : 840,
+				margin : [20, 60, 80, 60],
+				type: "ajax",
+				mouseWheel : false,
+				helpers : {
+					title : { type : "inside" },
+					buttons : {}
+				},
+				beforeLoad : function(){
+					//var url= $(this.element).attr("href").replace("/video/view","/video/cinematic-view");
+					//this.href = url;
+				}
+			});
+		');
+	}
+
+	public static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
+		if (OW::getRequest()->isAjax())
+			return;
 
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
 
