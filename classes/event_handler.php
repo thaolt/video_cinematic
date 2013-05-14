@@ -33,7 +33,9 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			return;
 
 		$body = OW::getDocument()->getBody();
-		header('cinematic-title: ' . OW::getDocument()->getHeading());
+		$data = new stdClass;
+		$data->title = OW::getDocument()->getHeading();
+		header('cinematic-data: ' . json_encode($data)  );
 
 		exit($body);
 	}
@@ -74,7 +76,8 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li>\';
 				},
 				afterLoad : function() {
-					this.title = $.fancybox.ajaxLoad.getResponseHeader("cinematic-title")
+					var data = JSON.parse($.fancybox.ajaxLoad.getResponseHeader("cinematic-data"));
+					this.title = data.title;
 					console.log($.fancybox.ajaxLoad.getResponseHeader("cinematic-title"));
 				}
 			});
