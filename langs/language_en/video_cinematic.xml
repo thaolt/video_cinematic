@@ -60,4 +60,7 @@
 	<key name="settings_updated">
 		<value>Video Cinematic settings have been updated</value>
 	</key>
+	<key name="view_full_page">
+		<value>Watch in full page</value>
+	</key>
 </prefix>
