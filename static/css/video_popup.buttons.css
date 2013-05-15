@@ -52,3 +52,7 @@
 	opacity : 0.3;
 	cursor: default;
 }
+
+.ow_message_cont {
+	z-index: 99999 !important;
+}

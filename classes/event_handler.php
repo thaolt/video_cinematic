@@ -43,6 +43,14 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		$theWall = $html('div[id^=comments-video_comments]',0);
 		$theWall->delete();
 
+		$tagBox = $html('.ow_box',3);
+		$tagBoxCap = $html('.ow_box_cap',3);
+
+		if ($tagBox) {
+			$tagBox->delete();
+			$tagBoxCap->delete();
+		}
+
 		$uploaderBoxCap = $html('.ow_box_cap',0);
 		$uploaderBox = $html('.ow_box',0);
 		$otherBoxCap = $html('.ow_box_cap',1);
@@ -63,15 +71,11 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$class = new ReflectionClass( 'OW_HtmlDocument' );
 
-		$property = $class->getProperty( 'javaScripts' );
-		$property->setAccessible( true );		
-		$data->javaScripts = $property->getValue( OW::getDocument() );
-
 		$property = $class->getProperty( 'onloadJavaScript' );
 		$property->setAccessible( true );
 		$data->onloadJavaScript = $property->getValue( OW::getDocument() );
 
-		header('cinematic-data: ' . json_encode($data)  );
+		header( 'cinematic-data: ' . json_encode($data)  );
 
 		exit($html);
 	}
@@ -130,9 +134,10 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 	public static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
 		if (OW::getRequest()->isAjax()) {
+			$args = OW::getRouter()->route();
 			$event->add(
 				array(
-					'href' => 'http://',
+					'href' => OW::getRouter()->urlForRoute('view_clip',$args['vars']),
 					'id' => '',
 					'class' => '',
 					'label' => OW::getLanguage()->text( 'video_cinematic', 'view_full_page' )
