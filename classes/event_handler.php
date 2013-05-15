@@ -1,5 +1,7 @@
 <?php
 
+require_once(OW::getPluginManager()->getPlugin( 'video_cinematic' )->getRootDir() . 'lib' . DS . 'ganon.php');
+
 /**
  *
  */
@@ -33,11 +35,30 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			return;
 
 		$body = OW::getDocument()->getBody();
+		$html = str_get_dom($body);
+
+		$descNode = $html('.ow_video_description',0);
+		$descNode->delete();
+
+		$theWall = $html('div[id^=comments-video_comments]',0);
+		$theWall->delete();
+
+		$uploaderBoxCap = $html('.ow_box_cap',0);
+		$uploaderBox = $html('.ow_box',0);
+		$otherBoxCap = $html('.ow_box_cap',1);
+		$otherBox = $html('.ow_box',1);
+		$otherBoxCap->delete();
+		$otherBox->delete();
+		$uploaderBoxCap->delete();
+		$uploaderBox->removeClass('ow_stdmargin');
+		$uploaderBox->removeClass('ow_box');
+
 		$data = new stdClass;
 		$data->title = OW::getDocument()->getHeading();
+		// $data->onloadScripts = OW::getDocument()->getOnloadScripts();
 		header('cinematic-data: ' . json_encode($data)  );
 
-		exit($body);
+		exit($html);
 	}
 
 	public static function on_view_video_list() {
