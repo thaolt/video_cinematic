@@ -53,9 +53,20 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		$uploaderBox->removeClass('ow_stdmargin');
 		$uploaderBox->removeClass('ow_box');
 
+		foreach ($html('.ow_box') as $box) {
+			if (!$box->hasClass('ow_video_player'))
+				$box->removeClass('ow_stdmargin');
+		}
+
+		// ob_start();
+		// $matches = $html('.ow_box')
+		// var_dump();
+		// $debug = ob_get_clean();
+
 		$data = new stdClass;
 		$data->title = OW::getDocument()->getHeading();
 		// $data->onloadScripts = OW::getDocument()->getOnloadScripts();
+		// $data->debug = $debug;
 		header('cinematic-data: ' . json_encode($data)  );
 
 		exit($html);
@@ -99,7 +110,6 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				afterLoad : function() {
 					var data = JSON.parse($.fancybox.ajaxLoad.getResponseHeader("cinematic-data"));
 					this.title = data.title;
-					console.log($.fancybox.ajaxLoad.getResponseHeader("cinematic-title"));
 				}
 			});
 		');
