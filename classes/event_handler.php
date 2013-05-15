@@ -58,15 +58,19 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				$box->removeClass('ow_stdmargin');
 		}
 
-		// ob_start();
-		// $matches = $html('.ow_box')
-		// var_dump();
-		// $debug = ob_get_clean();
-
 		$data = new stdClass;
 		$data->title = OW::getDocument()->getHeading();
-		// $data->onloadScripts = OW::getDocument()->getOnloadScripts();
-		// $data->debug = $debug;
+
+		$class = new ReflectionClass( 'OW_HtmlDocument' );
+
+		$property = $class->getProperty( 'javaScripts' );
+		$property->setAccessible( true );		
+		$data->javaScripts = $property->getValue( OW::getDocument() );
+
+		$property = $class->getProperty( 'onloadJavaScript' );
+		$property->setAccessible( true );
+		$data->onloadJavaScript = $property->getValue( OW::getDocument() );
+
 		header('cinematic-data: ' . json_encode($data)  );
 
 		exit($html);
@@ -78,11 +82,14 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$videoUrlPrefix = OW::getRouter()->urlForRoute('view_clip' , array('id'=>'') );
 
+		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video' )->getStaticUrl(). 'js/video.js' );
+
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.js' );
 
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.buttons.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
+
 		OW::getDocument()->addOnloadScript('
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery");
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("title","Video Cinematic Player");
@@ -107,9 +114,15 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 					var currentTitle = new String(this.title);
 					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li>\';
 				},
+				afterShow : function() {
+					$.each(this.onloadJavaScript, function(codeIndex, codeSource){
+						eval(codeSource);
+					});
+				},
 				afterLoad : function() {
 					var data = JSON.parse($.fancybox.ajaxLoad.getResponseHeader("cinematic-data"));
 					this.title = data.title;
+					this.onloadJavaScript = data.onloadJavaScript.items[1000];					
 				}
 			});
 		');
