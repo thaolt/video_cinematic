@@ -75,20 +75,10 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				$box->removeClass('ow_stdmargin');
 		}
 
-		$commentInput = $html('.base_cmnt_mark',0);
-		$commentInput->setIndex(0);
+
 		$sideBar = $html('.ow_supernarrow',0);
+		$sideBar->addClass('popup_sidebar');
 		$theWall->changeParent($sideBar);
-		$commentInput->parent->removeClass('ow_stdmargin');
-
-		$commentCount = count($theWall('.ow_comments_item'));
-
-		if ($commentCount>0) {
-			for ($i = 0; $i < $commentCount; $i++) {
-				$comment = $theWall('.ow_comments_item',$commentCount - 1);
-				$comment->setIndex($i);
-			}
-		}
 
 		$data = new stdClass;
 		$data->title = OW::getDocument()->getHeading();
@@ -168,6 +158,20 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 					'label' => OW::getLanguage()->text( 'video_cinematic', 'view_full_page' )
 				)
 			);
+			
+			OW::getDocument()->addOnloadScript('
+				var newTop = $(".ow_add_comments_form").offset().top - $(".popup_sidebar").offset().top;
+				console.log(newTop);
+				var commentFormCss = {
+					"position": "absolute",
+					"bottom" : 0,
+					"overflow" : "scroll",
+					"top" : newTop + "px"
+				};
+				
+				$(".ow_add_comments_form").css(commentFormCss);
+				$(".ow_add_comments_form").animate({ scrollTop: $(".ow_add_comments_form")[0].scrollHeight}, 1000);
+			');
 			return;
 		}
 
