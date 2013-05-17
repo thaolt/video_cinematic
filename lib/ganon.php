@@ -1103,7 +1103,7 @@ class HTML_Node {
 			if ($index > $this->index()) {
 				--$index;
 			}
-			$this->delete();
+			$this->parent->deleteChild($this, true);
 			$this->parent->addChild($this, $index);
 		}
 	}

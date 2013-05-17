@@ -12,7 +12,11 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	 * 
 	 */
 	public static function getRoute() {
-		return OW::getRouter()->route();
+		try {
+			return OW::getRouter()->route();
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -20,6 +24,10 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	 */
 	public static function isRoute( $controller, $action = null ) {
 		$route = self::getRoute();
+
+		if ($route == false)
+			return false;
+
 		if ( $route["controller"] == $controller ) {
 			if ( $route["action"] == $action || $action==null ) {
 				return true;
@@ -41,7 +49,8 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		$descNode->delete();
 
 		$theWall = $html('div[id^=comments-video_comments]',0);
-		$theWall->delete();
+		// $wallHtml = $theWall->html(); $wallHtml = &$wallHtml;
+		// $theWall->delete();
 
 		$tagBox = $html('.ow_box',3);
 		$tagBoxCap = $html('.ow_box_cap',3);
@@ -64,6 +73,21 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		foreach ($html('.ow_box') as $box) {
 			if (!$box->hasClass('ow_video_player'))
 				$box->removeClass('ow_stdmargin');
+		}
+
+		$commentInput = $html('.base_cmnt_mark',0);
+		$commentInput->setIndex(0);
+		$sideBar = $html('.ow_supernarrow',0);
+		$theWall->changeParent($sideBar);
+		$commentInput->parent->removeClass('ow_stdmargin');
+
+		$commentCount = count($theWall('.ow_comments_item'));
+
+		if ($commentCount>0) {
+			for ($i = 0; $i < $commentCount; $i++) {
+				$comment = $theWall('.ow_comments_item',$commentCount - 1);
+				$comment->setIndex($i);
+			}
 		}
 
 		$data = new stdClass;
