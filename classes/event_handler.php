@@ -78,7 +78,12 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$sideBar = $html('.ow_supernarrow',0);
 		$sideBar->addClass('popup_sidebar');
+		$sideBar->removeClass('ow_supernarrow');
 		$theWall->changeParent($sideBar);
+
+		$player = $html('.ow_video_player',0);
+		$player->addClass('ow_left');
+
 
 		$data = new stdClass;
 		$data->title = OW::getDocument()->getHeading();
@@ -117,15 +122,18 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				padding : 15,
 				preload : false,
 				scrolling : "no",
-				minWidth : 840,
-				maxWidth : 840,
+				minWidth : 900,
+				maxWidth : 900,
 				minHeight : 510,
 				margin : [20, 60, 40, 60],
 				type: "ajax",
 				mouseWheel : false,
 				helpers : {
+					overlay : {
+						closeClick : false
+					},
 					title : { 
-						type : "inside",
+						type : "outside",
 						position : "bottom"
 					},
 				},
@@ -161,16 +169,16 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			
 			OW::getDocument()->addOnloadScript('
 				var newTop = $(".ow_add_comments_form").offset().top - $(".popup_sidebar").offset().top;
-				console.log(newTop);
 				var commentFormCss = {
 					"position": "absolute",
 					"bottom" : 0,
-					"overflow" : "scroll",
-					"top" : newTop + "px"
+					"top" : newTop + "px",
+					"width" : $(".popup_sidebar").css("width")
 				};
 				
 				$(".ow_add_comments_form").css(commentFormCss);
 				$(".ow_add_comments_form").animate({ scrollTop: $(".ow_add_comments_form")[0].scrollHeight}, 1000);
+				$(".ow_add_comments_form").jScrollPane();
 			');
 			return;
 		}
