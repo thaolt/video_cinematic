@@ -177,7 +177,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				};
 				
 				$(".ow_add_comments_form").css(commentFormCss);
-				$(".ow_add_comments_form").animate({ scrollTop: $(".ow_add_comments_form")[0].scrollHeight}, 1000);
+				$(".ow_add_comments_form").scrollTop($(".ow_add_comments_form")[0].scrollHeight);
 				$(".ow_add_comments_form").jScrollPane();
 			');
 			return;
