@@ -56,3 +56,7 @@
 .ow_message_cont {
 	z-index: 99999 !important;
 }
+
+.fancybox-inner {
+	border-bottom: 1px solid #d9d9d9;
+}

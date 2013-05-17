@@ -103,6 +103,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				padding : 15,
 				preload : false,
 				scrolling : "no",
+				minWidth : 840,
 				maxWidth : 840,
 				minHeight : 510,
 				margin : [20, 60, 40, 60],
