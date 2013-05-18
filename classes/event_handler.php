@@ -83,6 +83,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$player = $html('.ow_video_player',0);
 		$player->addClass('ow_left');
+		$player->parent->removeClass('ow_superwide');
 
 
 		$data = new stdClass;
@@ -114,6 +115,29 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
 
 		OW::getDocument()->addOnloadScript('
+			jQuery.fn.contentChange = function(callback){
+		    var elms = jQuery(this);
+		    elms.each(
+			      function(i){
+			        var elm = jQuery(this);
+			        elm.data("lastContents", elm.html());
+			        window.watchContentChange = window.watchContentChange ? window.watchContentChange : [];
+			        window.watchContentChange.push({"element": elm, "callback": callback});
+			      }
+			    )
+			    return elms;
+			  }
+		    setInterval(function(){
+		    if(window.watchContentChange){
+		      for( i in window.watchContentChange){
+		        if(window.watchContentChange[i].element.data("lastContents") != window.watchContentChange[i].element.html()){
+		          window.watchContentChange[i].callback.apply(window.watchContentChange[i].element);
+		          window.watchContentChange[i].element.data("lastContents", window.watchContentChange[i].element.html())
+		        };
+		      }
+		    }
+		    },500);
+
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery");
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("title","Video Cinematic Player");
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").fancybox({
@@ -122,7 +146,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				padding : 15,
 				preload : false,
 				scrolling : "no",
-				minWidth : 900,
+				minWidth : 560,
 				maxWidth : 900,
 				minHeight : 510,
 				margin : [20, 60, 40, 60],
@@ -139,7 +163,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				},
 				beforeShow : function(){
 					var currentTitle = new String(this.title);
-					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li>\';
+					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li><li><a class="btnSidebar" title="Toggle Sidebar" href="javascript:;"></a></li></ul></div></div>\';
 				},
 				afterShow : function() {
 					$.each(this.onloadJavaScript, function(codeIndex, codeSource){
@@ -168,6 +192,9 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			);
 			
 			OW::getDocument()->addOnloadScript('
+				$(".popup_sidebar").parent("div").prepend(\'<div id="sidebar_placeholder" class="ow_left" style="width:280px"></div>\');
+				console.log($(".video_popup"));
+
 				var newTop = $(".ow_add_comments_form").offset().top - $(".popup_sidebar").offset().top;
 				var commentFormCss = {
 					"position": "absolute",
@@ -179,6 +206,9 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				$(".ow_add_comments_form").css(commentFormCss);
 				$(".ow_add_comments_form").scrollTop($(".ow_add_comments_form")[0].scrollHeight);
 				$(".ow_add_comments_form").jScrollPane();
+				$(".ow_add_comments_form").find("*").contentChange(function(){
+					$(".ow_add_comments_form").jScrollPane();
+				});
 			');
 			return;
 		}

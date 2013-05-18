@@ -57,6 +57,12 @@
 	z-index: 99999 !important;
 }
 
+#fancybox-buttons a.btnSidebar {
+	background-image: url('../img/sidebarToggleBtn.png');
+	width: 30px;
+	height: 30px;
+}
+
 .popup_sidebar .ow_add_comments_form {
 	/*border: 1px solid #cfcfcf;*/
 	overflow-y: auto;
@@ -70,4 +76,8 @@
 	bottom: 0;
 	overflow: hidden;
 	width: 270px;
+}
+
+.with_sidebar {
+	margin-right: 270px;
 }
