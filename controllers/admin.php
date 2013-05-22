@@ -3,8 +3,9 @@
 class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
 {
 
-    function index() {
+    function getMenuItems() {
         $language = OW::getLanguage();
+        $menuItems = array();
 
         $item = new BASE_MenuItem();
         $item->setLabel( $language->text( 'video_cinematic', 'admin_menu_general' ) );
@@ -12,8 +13,23 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
         $item->setKey( 'general' );
         $item->setIconClass( 'ow_ic_gear_wheel' );
         $item->setOrder( 0 );
+        $menuItems[] = $item;
 
-        $menu = new BASE_CMP_ContentMenu( array( $item ) );
+        $item = new BASE_MenuItem();
+        $item->setLabel( $language->text( 'video_cinematic', 'admin_menu_about' ) );
+        $item->setUrl( OW::getRouter()->urlForRoute( 'video_cinematic.about' ) );
+        $item->setKey( 'about' );
+        $item->setIconClass( 'ow_ic_help' );
+        $item->setOrder( 1 );
+        $menuItems[] = $item;
+
+        return $menuItems;
+    }
+
+    function index() {
+        $language = OW::getLanguage();
+
+        $menu = new BASE_CMP_ContentMenu( $this->getMenuItems() );
         $this->addComponent( 'menu', $menu );
 
         $configs = OW::getConfig()->getValues( 'video_cinematic' );
@@ -32,6 +48,33 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
             $this->setPageHeading( OW::getLanguage()->text( 'video_cinematic', 'admin_config' ) );
             $this->setPageHeadingIconClass( 'ow_ic_picture' );
 
+            $jsMiniColor = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/jquery.minicolors.js';
+            $cssMiniColor = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/jquery.minicolors.css';
+
+            OW::getDocument()->addScript( $jsMiniColor );
+            OW::getDocument()->addStyleSheet( $cssMiniColor );
+            OW::getDocument()->addOnloadScript('
+                $("input[name=borderColor]").minicolors({
+                    animationSpeed: 100,
+                    animationEasing: \'swing\',
+                    change: null,
+                    changeDelay: 0,
+                    control: \'hue\',
+                    defaultValue: \'\',
+                    hide: null,
+                    hideSpeed: 100,
+                    inline: false,
+                    letterCase: \'uppercase\',
+                    opacity: false,
+                    position: \'default\',
+                    show: null,
+                    showSpeed: 100,
+                    swatchPosition: \'right\',
+                    textfield: true,
+                    theme: \'bootstrap\'
+                });
+            ');
+
             $elem = $menu->getElement( 'general' );
             if ( $elem ) {
                 $elem->setActive( true );
@@ -40,6 +83,7 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
 
         $configSaveForm->getElement( 'preset' )->setValue( $configs['preset'] );
         $configSaveForm->getElement( 'borderColor' )->setValue( $configs['borderColor'] );
+        @$configSaveForm->getElement( 'borderSize' )->setValue( $configs['borderSize'] );
         $configSaveForm->getElement( 'displayLogo' )->setValue( $configs['displayLogo'] );
         if ( !empty( $configs['logoFile'] ) )
             $this->assign( 'imgLogo', OW::getPluginManager()->getPlugin( 'video_cinematic' )->getUserFilesUrl().$configs['logoFile'] );
@@ -74,6 +118,11 @@ class ConfigSaveForm extends Form
         $borderColorField->setRequired( false );
         $this->addElement( $borderColorField );
 
+        // user quota Field
+        $borderSizeField = new TextField( 'borderSize' );
+        $borderSizeField->setRequired( false );
+        $this->addElement( $borderSizeField );
+
         // display Logo options
         $displayLogoField = new RadioField( 'displayLogo' );
         $displayLogoField->addOption( '1', $language->text( 'video_cinematic', 'yes' ) );
@@ -99,6 +148,7 @@ class ConfigSaveForm extends Form
 
         $config->saveConfig( 'video_cinematic', 'preset', $values['preset'] );
         $config->saveConfig( 'video_cinematic', 'borderColor', $values['borderColor'] );
+        $config->saveConfig( 'video_cinematic', 'borderSize', $values['borderSize'] );
         $config->saveConfig( 'video_cinematic', 'displayLogo', $values['displayLogo'] );
 
         if ( isset( $_FILES['logoFile'] )
