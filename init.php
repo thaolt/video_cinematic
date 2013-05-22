@@ -4,6 +4,7 @@ OW::getAutoloader()->addClass('WideImage', OW_DIR_LIB . DS . 'wideimage' . DS . 
 
 // declare routes 
 OW::getRouter()->addRoute(new OW_Route('video_cinematic.admin', 'admin/plugins/video_cinematic', 'VIDEO_CINEMATIC_CTRL_Admin', 'index'));
+OW::getRouter()->addRoute(new OW_Route('video_cinematic.about', 'admin/plugins/video_cinematic/about', 'VIDEO_CINEMATIC_CTRL_Admin', 'about'));
 OW::getRouter()->addRoute(new OW_Route('video_cinematic.cinematic-view', 'video/cinematic-view/:id', 'VIDEO_CINEMATIC_CTRL_Cinematic', 'view'));
 
 // bind events
