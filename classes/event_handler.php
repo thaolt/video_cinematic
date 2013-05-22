@@ -111,7 +111,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.js' );
 
-		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.buttons.css' );
+		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
 
 		OW::getDocument()->addOnloadScript('
@@ -143,13 +143,12 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").fancybox({
 				loop : false,
 				arrows: false,
-				padding : 15,
+				padding : 0,
 				preload : false,
 				scrolling : "no",
 				minWidth : 560,
 				maxWidth : 900,
-				minHeight : 510,
-				margin : [20, 60, 40, 60],
+				maxHeight : 510,
 				type: "ajax",
 				mouseWheel : false,
 				helpers : {

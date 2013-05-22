@@ -23,11 +23,37 @@
 
 #cinematic_close_btn {
     display: none; 
-    margin-top: -28px; 
-    margin-right: -28px; 
-    float:right; 
-    width: 29px !important;
-    height: 29px !important;
-    z-index: 1002;
-    background: transparent url(../img/round_close_button.png) no-repeat top left;
+    margin-top: -18px; 
+    margin-right: -18px; 
+    /*float:right; */
+    position: absolute;
+    right:0;
+    width: 36px;
+    height: 36px;
+    z-index: 9000;
+    background: transparent url(../img/fancybox_sprite.png) no-repeat top left;
+}
+
+.shadow {
+    -moz-box-shadow: 2px 2px 12px #000;
+    -webkit-box-shadow: 2px 2px 12px #000;
+    box-shadow: 2px 2px 12px #000;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=8, Direction=135, Color='#000000')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=8, Direction=135, Color='#000000');
+}
+
+.vc_toolbar_fix {
+    padding-right: 5px;
+}
+
+.center_player {
+    z-index: 1001;
+    overflow: visible;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 5px 5px 5px 5px;
+    overflow: visible;
 }

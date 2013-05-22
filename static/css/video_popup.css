@@ -1,0 +1,90 @@
+#fancybox-buttons {
+	float:right;
+	z-index: 8050;
+}
+
+#fancybox-buttons.top {
+	top: 10px;
+}
+
+#fancybox-buttons.bottom {
+	bottom: 10px;
+}
+
+#fancybox-buttons ul {
+	display: block;
+	height: 30px;
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+
+#fancybox-buttons ul li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#fancybox-buttons a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	text-indent: -9999px;
+	background-image: url('../img/controls_sprite.png');
+	background-repeat: no-repeat;
+	outline: none;
+	opacity: 0.7;
+}
+
+#fancybox-buttons a:hover {
+	opacity: 1;
+}
+
+#fancybox-buttons a.btnPrev {
+	background-position: -28px 0;
+}
+
+#fancybox-buttons a.btnNext {
+	background-position: -80px 0;
+}
+
+#fancybox-buttons a.btnDisabled {
+	opacity : 0.3;
+	cursor: default;
+}
+
+.ow_message_cont {
+	z-index: 99999 !important;
+}
+
+#fancybox-buttons a.btnSidebar {
+	background-image: url('../img/sidebarToggleBtn.png');
+	width: 30px;
+	height: 30px;
+}
+
+.popup_sidebar .ow_add_comments_form {
+	/*border: 1px solid #cfcfcf;*/
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#sidebar_placeholder {
+	display:none;
+	padding-right: 5px;
+}
+
+.popup_sidebar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	width: 270px;
+	display:none;
+	padding-right: 5px;
+}
+
+.with_sidebar {
+	margin-right: 270px;
+}

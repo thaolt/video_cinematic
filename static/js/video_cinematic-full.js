@@ -1,34 +1,32 @@
 function cinematic_off() {
 	$('#cinematic_close_btn').css('display', 'none');
 	$('#CinemaOn').hide();
-	$('.ow_video_description').css('z-index', 'auto');
-	$('.ow_video_player').css('position', 'relative');
-	$('.ow_video_player').css('top', '');
-	$('.ow_video_player').css('left', '');
-	$('.ow_video_player').css('margin-top', 'auto');
-	$('.ow_video_player').css('margin-left', 'auto');
-	$('.ow_video_player').css('background-color', oldBackgroundColor);
-	$('.ow_video_player').css('border-radius', oldBorderRadius);
-	$('.ow_video_player').css('padding', oldPadding);
-	$('.ow_video_player').css('z-index', oldZindex);
-	$('.ow_video_player').css('overflow', oldOverflow);
+
+	$('.ow_video_player').removeAttr('style');
+
+	$('.ow_video_player').removeClass('center_player');
+	$('.ow_video_player').removeClass('shadow');
+	$('.ow_box_toolbar_cont').removeClass('vc_toolbar_fix');  
 	$('#CinemaLogo').hide();
 }
 
 function cinematic_on() {
-	$('#cinematic_close_btn').css('display', 'inline');
+	$('#cinematic_close_btn').css('display', 'block');
 	$('#CinemaOn').toggle();
-	$('#CinemaOn').fadeTo(0, .85);
-	$('.ow_video_player').css('z-index', '1001');
-	$('.ow_video_player').css('overflow', 'visible');
-	$('.ow_video_player').css('position', 'fixed');
-	$('.ow_video_player').css('top', '50%');
-	$('.ow_video_player').css('left', '50%');
-	$('.ow_video_player').css('margin-top', '-' + (parseInt($('.ow_video_player').css('height'))/2+20) + 'px');
+	$('#CinemaOn').fadeTo(0, .88);
+	
+	$('.ow_video_player').css('margin-top', '-' + (parseInt($('.ow_video_player').css('height'))/2) + 'px');
 	$('.ow_video_player').css('margin-left', '-' + (parseInt($('.ow_video_player').css('width'))/2) + 'px');
 	$('.ow_video_player').css('background-color', video_cinematic_borderColor);
-	$('.ow_video_player').css('border-radius', '5px 5px 5px 5px');
-	$('.ow_video_player').css('padding', '12px');
+	
+	$('.ow_video_player').css('padding-left', '0px');
+	$('.ow_video_player').css('padding-right', '0px');
+	$('.ow_video_player').css('padding-top', '0px');
+	$('.ow_video_player').css('padding-bottom', '8px');
+
+	$('.ow_video_player').addClass('center_player');
+	$('.ow_video_player').addClass('shadow');
+	$('.ow_box_toolbar_cont').addClass('vc_toolbar_fix');  
 	$('#CinemaLogo').toggle();
 	$('#CinemaLogo').fadeTo(0, 1);
 	
