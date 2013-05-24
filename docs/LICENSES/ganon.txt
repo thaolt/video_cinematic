@@ -1,0 +1,1 @@
+Artistic License/GPL (http://dev.perl.org/licenses/)
