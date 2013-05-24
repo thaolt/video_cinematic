@@ -18,6 +18,20 @@ Contributing
 
 Any contributing is appreciated. I need help in translating into other languages.
 
+Credits
+-------
+
+Libraries that included:
+
+* Ganon  (https://code.google.com/p/ganon/) -- PHP HTML Parser & Query tool
+* jQuery MiniColors (https://github.com/claviska/jquery-miniColors/) -- Color picker 
+* jQuery Toggles (http://simontabor.com/labs/toggles/)
+* Fancybox (http://fancyapps.com/fancybox/)
+
+Many thanks for authors of these libraries
+
+Licenses of them can be found in /docs/LICENSES/
+
 Changes Log
 -----------
 
