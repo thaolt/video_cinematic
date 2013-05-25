@@ -1,7 +1,8 @@
 video_cinematic
 ===============
 
-video_cinematic is an oxwall plugin. Video Cinematic Mode allow your oxwall video player has ability to dimm the light around and center the video.
+video_cinematic is an oxwall plugin. Video Cinematic Mode allow your oxwall 
+video player has ability to dimm the light around and center the video.
 
 Developing
 ----------
@@ -24,7 +25,8 @@ Credits
 Libraries that included:
 
 * Ganon  (https://code.google.com/p/ganon/) -- PHP HTML Parser & Query tool
-* jQuery MiniColors (https://github.com/claviska/jquery-miniColors/) -- Color picker 
+* jQuery MiniColors (https://github.com/claviska/jquery-miniColors/) -- Color 
+picker 
 * jQuery Toggles (http://simontabor.com/labs/toggles/)
 * Fancybox (http://fancyapps.com/fancybox/)
 
@@ -37,7 +39,8 @@ Changes Log
 
 ### 1.01.0
 
-*   option to switch between presets: lite(thin border, no close button, no logo mark) and full (thick border with close button and logo mark)
+*   option to switch between presets: lite(thin border, no close button, no logo
+mark) and full (thick border with close button and logo mark)
 *   re-wrote plugin structure (organized static contents)
 *   added setting allows admins to display logo on video cinematic layer
 *   allow admins changing border color
@@ -48,7 +51,8 @@ Changes Log
 
 ### 1.0.01
 
-*   correctly restore z-index css attribute of video div layer when closing cinematic mode
+*   correctly restore z-index css attribute of video div layer when closing
+cinematic mode
 
 ### 1.0.0
 
