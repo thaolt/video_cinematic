@@ -38,6 +38,12 @@ Licenses of them can be found in /docs/LICENSES/
 Changes Log
 -----------
 
+### 1.02.0
+*   added feature: watch video directly from video listing page (by opening a fancybox)
+*   improved user interface
+*   improved admin interface and more settings
+*   fixed some minor bugs
+
 ### 1.01.0
 
 *   option to switch between presets: lite(thin border, no close button, no logo
