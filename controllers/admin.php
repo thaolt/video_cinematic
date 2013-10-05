@@ -25,7 +25,7 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
 
         return $menuItems;
     }
-
+    
     function index() {
         $language = OW::getLanguage();
 
@@ -33,7 +33,6 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
         $this->addComponent( 'menu', $menu );
 
         $configs = OW::getConfig()->getValues( 'video_cinematic' );
-
         $configSaveForm = new ConfigSaveForm();
 
         $this->addForm( $configSaveForm );
@@ -48,47 +47,55 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
             $this->setPageHeading( OW::getLanguage()->text( 'video_cinematic', 'admin_config' ) );
             $this->setPageHeadingIconClass( 'ow_ic_picture' );
 
-            $jsMiniColor = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/jquery.minicolors.js';
+            $cssNoUiSlider = OW::getPluginManager()->getPlugin( "video_cinematic" )->getStaticCssUrl() . "nouislider.fox.css";
+            $cssToggles = OW::getPluginManager()->getPlugin( "video_cinematic" )->getStaticCssUrl() . "toggles-light.css";
             $cssMiniColor = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/jquery.minicolors.css';
+            $cssAdminForm = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/admin_form.css';
+            
+            $jsMiniColor = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/jquery.minicolors.js';
+            $jsNoUiSlider = OW::getPluginManager()->getPlugin( "video_cinematic" )->getStaticJsUrl() . "jquery.nouislider.min.js";
+            $jsToggles = OW::getPluginManager()->getPlugin( "video_cinematic" )->getStaticJsUrl() . "toggles.min.js";
+            $jsAdminform = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/adminform.js';
+
+            OW::getDocument()->addStyleSheet( $cssNoUiSlider );
+            OW::getDocument()->addStyleSheet( $cssToggles );
+            OW::getDocument()->addStyleSheet( $cssMiniColor );
+            OW::getDocument()->addStyleSheet( $cssAdminForm );
 
             OW::getDocument()->addScript( $jsMiniColor );
-            OW::getDocument()->addStyleSheet( $cssMiniColor );
-            OW::getDocument()->addOnloadScript('
-                $("input[name=borderColor]").minicolors({
-                    animationSpeed: 100,
-                    animationEasing: \'swing\',
-                    change: null,
-                    changeDelay: 0,
-                    control: \'hue\',
-                    defaultValue: \'\',
-                    hide: null,
-                    hideSpeed: 100,
-                    inline: false,
-                    letterCase: \'uppercase\',
-                    opacity: false,
-                    position: \'default\',
-                    show: null,
-                    showSpeed: 100,
-                    swatchPosition: \'right\',
-                    textfield: true,
-                    theme: \'bootstrap\'
-                });
-            ');
+            OW::getDocument()->addScript( $jsNoUiSlider );
+            OW::getDocument()->addScript( $jsToggles );
+            OW::getDocument()->addOnloadScript( file_get_contents( $jsAdminform ) );
 
             $elem = $menu->getElement( 'general' );
-            if ( $elem ) {
+            if ( is_object( $elem ) ) {
                 $elem->setActive( true );
             }
         }
 
-        $configSaveForm->getElement( 'preset' )->setValue( $configs['preset'] );
         $configSaveForm->getElement( 'borderColor' )->setValue( $configs['borderColor'] );
-        @$configSaveForm->getElement( 'borderSize' )->setValue( $configs['borderSize'] );
+        $configSaveForm->getElement( 'borderSize' )->setValue( $configs['borderSize'] );
         $configSaveForm->getElement( 'displayLogo' )->setValue( $configs['displayLogo'] );
+        // popup options
+        $configSaveForm->getElement( 'popupDashboard' )->setValue( $configs['popupDashboard'] );
+        $configSaveForm->getElement( 'popupProfile' )->setValue( $configs['popupProfile'] );
+        $configSaveForm->getElement( 'popupListing' )->setValue( $configs['popupListing'] );
+
         if ( !empty( $configs['logoFile'] ) )
             $this->assign( 'imgLogo', OW::getPluginManager()->getPlugin( 'video_cinematic' )->getUserFilesUrl().$configs['logoFile'] );
 
         $this->setTemplate( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getCtrlViewDir() . 'admin_index.html' );
+    }
+
+    function about() {
+        $language = OW::getLanguage();
+
+        $menu = new BASE_CMP_ContentMenu( $this->getMenuItems() );
+        $this->addComponent( 'menu', $menu );
+
+        $this->setPageHeading( OW::getLanguage()->text( 'video_cinematic', 'admin_config' ) );
+
+        $this->setTemplate( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getCtrlViewDir() . 'admin_about.html' );
     }
 }
 
@@ -106,13 +113,6 @@ class ConfigSaveForm extends Form
 
         $language = OW::getLanguage();
 
-        // preset radio boxes
-        $presetField = new RadioField( 'preset' );
-        $presetField->addOption( 'full', $language->text( 'video_cinematic', 'preset_full' ) );
-        $presetField->addOption( 'lite', $language->text( 'video_cinematic', 'preset_lite' ) );
-        $presetField->setRequired( true );
-        $this->addElement( $presetField );
-
         // user quota Field
         $borderColorField = new TextField( 'borderColor' );
         $borderColorField->setRequired( false );
@@ -123,10 +123,8 @@ class ConfigSaveForm extends Form
         $borderSizeField->setRequired( false );
         $this->addElement( $borderSizeField );
 
-        // display Logo options
-        $displayLogoField = new RadioField( 'displayLogo' );
-        $displayLogoField->addOption( '1', $language->text( 'video_cinematic', 'yes' ) );
-        $displayLogoField->addOption( '0', $language->text( 'video_cinematic', 'no' ) );
+        // display Logo option
+        $displayLogoField = new CheckboxField( 'displayLogo' );
         $displayLogoField->setRequired( false );
         $this->addElement( $displayLogoField );
 
@@ -134,6 +132,21 @@ class ConfigSaveForm extends Form
         $logoFileField = new FileField( 'logoFile' );
         $logoFileField->setRequired( false );
         $this->addElement( $logoFileField );
+
+        // display popup on dashboard?
+        $popupDashboardField = new CheckboxField( 'popupDashboard' );
+        $popupDashboardField->setRequired( false );
+        $this->addElement( $popupDashboardField );
+
+        // display popup on user profile?
+        $popupProfileField = new CheckboxField( 'popupProfile' );
+        $popupProfileField->setRequired( false );
+        $this->addElement( $popupProfileField );
+
+        // display popup on dashboard?
+        $popupListingField = new CheckboxField( 'popupListing' );
+        $popupListingField->setRequired( false );
+        $this->addElement( $popupListingField );
 
         // submit
         $submit = new Submit( 'save' );
@@ -146,10 +159,23 @@ class ConfigSaveForm extends Form
 
         $config = OW::getConfig();
 
-        $config->saveConfig( 'video_cinematic', 'preset', $values['preset'] );
         $config->saveConfig( 'video_cinematic', 'borderColor', $values['borderColor'] );
         $config->saveConfig( 'video_cinematic', 'borderSize', $values['borderSize'] );
         $config->saveConfig( 'video_cinematic', 'displayLogo', $values['displayLogo'] );
+
+        $config->saveConfig( 'video_cinematic','popupDashboard', $values['popupDashboard'] );
+        $config->saveConfig( 'video_cinematic','popupProfile', $values['popupProfile'] );
+        $config->saveConfig( 'video_cinematic','popupListing', $values['popupListing'] );
+
+        // if (
+        //     isset( $values['displayLogo'] )
+        //     && !is_null( $values['displayLogo'] )
+        //     && $values['displayLogo'] == "1"
+        // ) {
+        //     $config->saveConfig( 'video_cinematic', 'displayLogo', "1" );
+        // } else {
+        //     $config->saveConfig( 'video_cinematic', 'displayLogo', "0" );
+        // }
 
         if ( isset( $_FILES['logoFile'] )
             && !is_null( $_FILES['logoFile'] )
@@ -166,7 +192,7 @@ class ConfigSaveForm extends Form
             file_put_contents( $filePath, $imgLogo );
             $config->saveConfig( 'video_cinematic', 'logoFile', $fileName );
         } else {
-            if ( !empty($_POST['clearImage']) ) {
+            if ( !empty( $_POST['clearImage'] ) ) {
                 $config->saveConfig( 'video_cinematic', 'logoFile', '' );
             }
         }

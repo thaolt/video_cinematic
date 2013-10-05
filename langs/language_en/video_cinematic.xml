@@ -63,4 +63,17 @@
 	<key name="view_full_page">
 		<value>Watch in full page</value>
 	</key>
+	<key name="display_options">
+		<value>Display Options</value>
+	</key>
+	<key name="config_boder_size">
+		<value>Border size</value>
+	</key>
+	<key name="borderSize_settings_desc">
+		<value>Border size of popup player in pixels</value>
+	</key>
+	<key name="admin_menu_about">
+		<value>About</value>
+	</key>
+	
 </prefix>

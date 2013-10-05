@@ -10,7 +10,7 @@ $.fn['toggles'] = function(options) {
       'off': 'OFF' // and off
     },
     'on': false, // is the toggle ON on init
-    'animate': 250, // animation time
+    'animate': 150, // animation time
     'transition': 'ease-in-out', // animation transition,
     'checkbox': null, // the checkbox to toggle (for use in forms)
     'clicker': null, // element that can be clicked on to toggle. removes binding from the toggle itself (use nesting)

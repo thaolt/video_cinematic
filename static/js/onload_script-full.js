@@ -9,7 +9,6 @@ $(document).ready(function() {
 	$('.ow_video_player').parent('div').prepend('<div style="display: none;" id="CinemaOn"></div>');
 	$('.ow_video_player').prepend('<a id="cinematic_close_btn" href="javascript://"></a>');
 
-
 	$('.CinemaToggle a').click(function() {
 		if ($('#CinemaOn').css('display')=='none')
 			cinematic_on();

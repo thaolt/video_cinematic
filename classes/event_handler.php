@@ -1,6 +1,6 @@
 <?php
 
-require_once(OW::getPluginManager()->getPlugin( 'video_cinematic' )->getRootDir() . 'lib' . DS . 'ganon.php');
+require_once OW::getPluginManager()->getPlugin( 'video_cinematic' )->getRootDir() . 'lib' . DS . 'ganon.php';
 
 /**
  *
@@ -9,23 +9,23 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	const ON_COLLECT_VIDEO_TOOLBAR = 'video.collect_video_toolbar_items';
 
 	/**
-	 * 
+	 *
 	 */
 	public static function getRoute() {
 		try {
 			return OW::getRouter()->route();
-		} catch (Exception $e) {
+		} catch ( Exception $e ) {
 			return false;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public static function isRoute( $controller, $action = null ) {
 		$route = self::getRoute();
 
-		if ($route == false)
+		if ( $route == false )
 			return false;
 
 		if ( $route["controller"] == $controller ) {
@@ -37,53 +37,53 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	}
 
 	public static function on_ajax_video_view() {
-		if (!self::isRoute('VIDEO_CTRL_Video','view'))
+		if ( !self::isRoute( 'VIDEO_CTRL_Video', 'view' ) )
 			return;
-		if (!OW::getRequest()->isAjax())
+		if ( !OW::getRequest()->isAjax() )
 			return;
 
 		$body = OW::getDocument()->getBody();
-		$html = str_get_dom($body);
+		$html = str_get_dom( $body );
 
-		$descNode = $html('.ow_video_description',0);
+		$descNode = $html( '.ow_video_description', 0 );
 		$descNode->delete();
 
-		$theWall = $html('div[id^=comments-video_comments]',0);
+		$theWall = $html( 'div[id^=comments-video_comments]', 0 );
 		// $wallHtml = $theWall->html(); $wallHtml = &$wallHtml;
 		// $theWall->delete();
 
-		$tagBox = $html('.ow_box',3);
-		$tagBoxCap = $html('.ow_box_cap',3);
+		$tagBox = $html( '.ow_box', 3 );
+		$tagBoxCap = $html( '.ow_box_cap', 3 );
 
-		if ($tagBox) {
+		if ( $tagBox ) {
 			$tagBox->delete();
 			$tagBoxCap->delete();
 		}
 
-		$uploaderBoxCap = $html('.ow_box_cap',0);
-		$uploaderBox = $html('.ow_box',0);
-		$otherBoxCap = $html('.ow_box_cap',1);
-		$otherBox = $html('.ow_box',1);
+		$uploaderBoxCap = $html( '.ow_box_cap', 0 );
+		$uploaderBox = $html( '.ow_box', 0 );
+		$otherBoxCap = $html( '.ow_box_cap', 1 );
+		$otherBox = $html( '.ow_box', 1 );
 		$otherBoxCap->delete();
 		$otherBox->delete();
 		$uploaderBoxCap->delete();
-		$uploaderBox->removeClass('ow_stdmargin');
-		$uploaderBox->removeClass('ow_box');
+		$uploaderBox->removeClass( 'ow_stdmargin' );
+		$uploaderBox->removeClass( 'ow_box' );
 
-		foreach ($html('.ow_box') as $box) {
-			if (!$box->hasClass('ow_video_player'))
-				$box->removeClass('ow_stdmargin');
+		foreach ( $html( '.ow_box' ) as $box ) {
+			if ( !$box->hasClass( 'ow_video_player' ) )
+				$box->removeClass( 'ow_stdmargin' );
 		}
 
 
-		$sideBar = $html('.ow_supernarrow',0);
-		$sideBar->addClass('popup_sidebar');
-		$sideBar->removeClass('ow_supernarrow');
-		$theWall->changeParent($sideBar);
+		$sideBar = $html( '.ow_supernarrow', 0 );
+		$sideBar->addClass( 'popup_sidebar' );
+		$sideBar->removeClass( 'ow_supernarrow' );
+		$theWall->changeParent( $sideBar );
 
-		$player = $html('.ow_video_player',0);
-		$player->addClass('ow_left');
-		$player->parent->removeClass('ow_superwide');
+		$player = $html( '.ow_video_player', 0 );
+		$player->addClass( 'ow_left' );
+		$player->parent->removeClass( 'ow_superwide' );
 
 
 		$data = new stdClass;
@@ -95,16 +95,24 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		$property->setAccessible( true );
 		$data->onloadJavaScript = $property->getValue( OW::getDocument() );
 
-		header( 'cinematic-data: ' . json_encode($data)  );
+		header( 'cinematic-data: ' . json_encode( $data )  );
 
-		exit($html);
+		exit( $html );
 	}
 
 	public static function on_view_video_list() {
-		if (!self::isRoute('VIDEO_CTRL_Video','viewList'))
+		if (
+			!self::isRoute( 'VIDEO_CTRL_Video', 'viewList' ) &&
+			!self::isRoute( 'VIDEO_CTRL_Video', 'viewUserVideoList' ) &&
+			!self::isRoute( 'BASE_CTRL_ComponentPanel', 'profile' ) &&
+			!self::isRoute( 'BASE_CTRL_ComponentPanel', 'myProfile' ) &&
+			!self::isRoute( 'BASE_CTRL_ComponentPanel', 'dashboard' ) 
+		) {
 			return;
+		}
+		$configs = OW::getConfig()->getValues( 'video_cinematic' );
 
-		$videoUrlPrefix = OW::getRouter()->urlForRoute('view_clip' , array('id'=>'') );
+		$videoUrlPrefix = OW::getRouter()->urlForRoute( 'view_clip' , array( 'id'=>'' ) );
 
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video' )->getStaticUrl(). 'js/video.js' );
 
@@ -114,55 +122,36 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );
 
-		OW::getDocument()->addOnloadScript('
-			jQuery.fn.contentChange = function(callback){
-		    var elms = jQuery(this);
-		    elms.each(
-			      function(i){
-			        var elm = jQuery(this);
-			        elm.data("lastContents", elm.html());
-			        window.watchContentChange = window.watchContentChange ? window.watchContentChange : [];
-			        window.watchContentChange.push({"element": elm, "callback": callback});
-			      }
-			    )
-			    return elms;
-			  }
-		    setInterval(function(){
-		    if(window.watchContentChange){
-		      for( i in window.watchContentChange){
-		        if(window.watchContentChange[i].element.data("lastContents") != window.watchContentChange[i].element.html()){
-		          window.watchContentChange[i].callback.apply(window.watchContentChange[i].element);
-		          window.watchContentChange[i].element.data("lastContents", window.watchContentChange[i].element.html())
-		        };
-		      }
-		    }
-		    },500);
+		OW::getDocument()->addOnloadScript( '
+			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery").addClass("fancy_video");
+			$(".ow_newsfeed_item a[href^=\''.$videoUrlPrefix.'\']").addClass("fancy_video");
+			$(".ow_other_video_list_item a[href^=\''.$videoUrlPrefix.'\']").addClass("fancy_video");
 
-			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("rel","vcGallery");
-			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").attr("title","Video Cinematic Player");
-			$("div.ow_video_list_item > a[href^=\''.$videoUrlPrefix.'\']").fancybox({
+			$(".fancy_video").fancybox({
 				loop : false,
 				arrows: false,
-				padding : 0,
+				padding : ' . $configs['borderSize'] . ',
 				preload : false,
 				scrolling : "no",
 				minWidth : 560,
 				maxWidth : 900,
 				maxHeight : 510,
+				minHeight : 510,
 				type: "ajax",
 				mouseWheel : false,
 				helpers : {
 					overlay : {
 						closeClick : false
 					},
-					title : { 
+					title : {
 						type : "outside",
 						position : "bottom"
 					},
 				},
 				beforeShow : function(){
 					var currentTitle = new String(this.title);
-					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li><li><a class="btnSidebar" title="Toggle Sidebar" href="javascript:;"></a></li></ul></div></div>\';
+					this.title = \'<div><span style="font-weight: bold">\' + currentTitle + \'</span><div id="fancybox-buttons"><ul><li><a class="btnPrev" title="Previous" href="javascript:jQuery.fancybox.prev();"></a></li><li><a class="btnNext" title="Next" href="javascript:jQuery.fancybox.next();"></a></li><li><a class="btnSidebar" title="Toggle Sidebar" href="javascript:void(0)"></a></li></ul></div></div>\';
+					$(".fancybox-skin").css("background-color","' . $configs['borderColor'] . '");
 				},
 				afterShow : function() {
 					$.each(this.onloadJavaScript, function(codeIndex, codeSource){
@@ -172,51 +161,66 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				afterLoad : function() {
 					var data = JSON.parse($.fancybox.ajaxLoad.getResponseHeader("cinematic-data"));
 					this.title = data.title;
-					this.onloadJavaScript = data.onloadJavaScript.items[1000];					
+					this.onloadJavaScript = data.onloadJavaScript.items[1000];
 				}
 			});
-		');
+		' );
 	}
 
 	public static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
-		if (OW::getRequest()->isAjax()) {
+		if ( OW::getRequest()->isAjax() ) {
 			$args = OW::getRouter()->route();
 			$event->add(
 				array(
-					'href' => OW::getRouter()->urlForRoute('view_clip',$args['vars']),
+					'href' => OW::getRouter()->urlForRoute( 'view_clip', $args['vars'] ),
 					'id' => '',
 					'class' => '',
 					'label' => OW::getLanguage()->text( 'video_cinematic', 'view_full_page' )
 				)
 			);
-			
-			OW::getDocument()->addOnloadScript('
-				$(".popup_sidebar").parent("div").prepend(\'<div id="sidebar_placeholder" class="ow_left" style="width:280px"></div>\');
-				console.log($(".video_popup"));
 
-				var newTop = $(".ow_add_comments_form").offset().top - $(".popup_sidebar").offset().top;
+			OW::getDocument()->addOnloadScript( '
+				$(".btnSidebar").click(function() {
+					$(".popup_sidebar").toggle(); $("#sidebar_placeholder").toggle(); $.fancybox.update();
+					if ($(".popup_sidebar").css("display")!="none") {
+						var newTop = $("div[id^=comments-video_comments]").offset().top + parseInt($("div[id^=comments-video_comments]").find(".ow_box_cap_body").first().css("height")) - ($(".popup_sidebar").offset().top) + 10;
+						
+						var commentFormCss = {
+							"position": "absolute",
+							"bottom" : 0,
+							"top" : newTop + "px",
+							right : "5px",
+							left : 0
+						};
+						$(".ow_add_comments_form").css(commentFormCss);
+
+						$(".ow_add_comments_form").scrollTop($(".ow_add_comments_form")[0].scrollHeight);
+					}
+				});
+
+				$(".popup_sidebar").parent("div").prepend(\'<div id="sidebar_placeholder" class="ow_right" style="width:280px"></div>\');
+				var newTop = $("div[id^=comments-video_comments]").offset().top + parseInt($("div[id^=comments-video_comments]").find(".ow_box_cap_body").first().css("height")) - ($(".popup_sidebar").offset().top) + 10;
+				
 				var commentFormCss = {
 					"position": "absolute",
 					"bottom" : 0,
 					"top" : newTop + "px",
-					"width" : $(".popup_sidebar").css("width")
+					right : "5px",
+					left : 0
 				};
-				
 				$(".ow_add_comments_form").css(commentFormCss);
+
 				$(".ow_add_comments_form").scrollTop($(".ow_add_comments_form")[0].scrollHeight);
-				$(".ow_add_comments_form").jScrollPane();
-				$(".ow_add_comments_form").find("*").contentChange(function(){
-					$(".ow_add_comments_form").jScrollPane();
-				});
-			');
+
+			' );
 			return;
 		}
 
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
 
-		$cssFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/' . 'video_cinematic-' . $configs['preset'] . '.css';
-		$jsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/' . 'video_cinematic-' . $configs['preset'] . '.js';
-		$onloadJsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticDir().'js'.DS.'onload_script-' . $configs['preset'] . '.js';
+		$cssFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/' . 'video_cinematic-full.css';
+		$jsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/' . 'video_cinematic-full.js';
+		$onloadJsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticDir().'js'.DS.'onload_script-full.js';
 		$imgsrcCloseButton = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'img/' . 'round_close_button.png';
 
 		$imgLogo = '';
@@ -234,6 +238,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			var oldBorderRadius, oldBackgroundColor, oldPadding, oldZindex, oldOverflow;
 			var video_cinematic_borderColor = "' . $configs['borderColor'] . '";
 			var video_cinematic_imgLogo = "' . $imgLogo . '";
+			var video_cinematic_borderSize = "' . $configs['borderSize'] . '";
 
 			$(document).ready(function(){
 				// $(\'body\').append(\'<div style="display: none;" id="CinemaOn"></div>\');
@@ -244,7 +249,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			<!--@Cinema Mode--> ';
 
 		OW::getDocument()->appendBody( $appendContent );
-		if ($configs['preset']=='full' && $configs['displayLogo']=='1') {
+		if ( $configs['displayLogo']=='1' ) {
 			$event->add(
 				array(
 					'href' => 'javascript://',

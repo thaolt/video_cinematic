@@ -1,6 +1,6 @@
 <?php
-
-$plugin = OW::getPluginManager()->getPlugin('photo');
+// refresh static cache
+$plugin = OW::getPluginManager()->getPlugin('video_cinematic');
 
 $staticDir = OW_DIR_STATIC_PLUGIN . $plugin->getModuleName() . DS;
 
@@ -12,4 +12,12 @@ chmod($staticDir, 0777);
 
 UTIL_File::copyDir( $plugin->getStaticDir(), $staticDir );
 
-Updater::getLanguageService()->importPrefixFromZip(dirname(__FILE__).DS.'langs.zip', 'video_cinematic');
+// import languages
+Updater::getLanguageService()->importPrefixFromZip($plugin->getRootDir().DS.'langs.zip', 'video_cinematic');
+
+// add admin option
+$config = OW::getConfig();
+@$config->addConfig('video_cinematic', 'borderSize', '0');
+@$config->addConfig('video_cinematic', 'popupDashboard', '0');
+@$config->addConfig('video_cinematic', 'popupProfile', '0');
+@$config->addConfig('video_cinematic', 'popupListing', '1');

@@ -9,22 +9,9 @@
         </th>
     </tr>
     <tr class="ow_alt1">
-        <td class="ow_label">{text key='video_cinematic+config_boder_color'}</td>
-        <td class="ow_value">
-            {input name='borderColor' style='width: 110px'} {error name='borderColor'}
-        </td>
-        <td class="ow_desc ow_small">{text key='video_cinematic+borderColor_settings_desc'}</td>
-    </tr>
-    <tr class="ow_alt2">
-        <td class="ow_label">{text key='video_cinematic+config_boder_size'}</td>
-        <td class="ow_value">
-            {input name='borderSize' style='width: 70px'} {error name='borderSize'} px
-        </td>
-        <td class="ow_desc ow_small">{text key='video_cinematic+borderSize_settings_desc'}</td>
-    </tr>
-    <tr class="ow_alt1">
         <td class="ow_label">{text key='video_cinematic+displayLogo_settings'}</td>
         <td class="ow_value">
+            <div id="toggler" class="toggle-light"></div>
             {input name='displayLogo' class='ow_settings_input'} {error name='displayLogo'}
         </td>
         <td class="ow_desc ow_small">{text key='video_cinematic+displayLogo_settings_desc'}</td>
@@ -42,6 +29,24 @@
         	{/if}
         </td>
     </tr>
+    <tr class="ow_alt1">
+        <td class="ow_label">{text key='video_cinematic+config_boder_color'}</td>
+        <td class="ow_value">
+            {input name='borderColor' style='width: 110px'} {error name='borderColor'}
+        </td>
+        <td class="ow_desc ow_small">{text key='video_cinematic+borderColor_settings_desc'}</td>
+    </tr>
+    <tr class="ow_alt2">
+        <td class="ow_label">{text key='video_cinematic+config_boder_size'}</td>
+        <td class="ow_value">
+            <div id="borderSizeSlider" class="noUiSlider"></div>
+            <div style="float:left;margin-left:10px">
+                {input name='borderSize' style='width: 70px'} {error name='borderSize'} px
+            </div>
+        </td>
+        <td class="ow_desc ow_small">{text key='video_cinematic+borderSize_settings_desc'}</td>
+    </tr>
+    
 </table>
 <div class="clearfix ow_stdmargin"><div class="ow_right">{submit name='save' class='ow_ic_save ow_positive'}</div></div>
 

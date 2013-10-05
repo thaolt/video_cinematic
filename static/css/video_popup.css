@@ -70,8 +70,8 @@
 }
 
 #sidebar_placeholder {
-	display:none;
 	padding-right: 5px;
+	display:none;
 }
 
 .popup_sidebar {
@@ -81,10 +81,14 @@
 	bottom: 0;
 	overflow: hidden;
 	width: 270px;
-	display:none;
 	padding-right: 5px;
+	display:none;
 }
 
 .with_sidebar {
 	margin-right: 270px;
+}
+
+.ow_video_player {
+	padding: 0 !important;
 }

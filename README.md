@@ -24,11 +24,12 @@ Credits
 
 Libraries that included:
 
-* Ganon  (https://code.google.com/p/ganon/) -- PHP HTML Parser & Query tool
+* Ganon (https://code.google.com/p/ganon/) -- PHP HTML Parser & Query tool
 * jQuery MiniColors (https://github.com/claviska/jquery-miniColors/) -- Color 
 picker 
 * jQuery Toggles (http://simontabor.com/labs/toggles/)
-* Fancybox (http://fancyapps.com/fancybox/)
+* Fancybox2 (http://fancyapps.com/fancybox/)
+* jQueryNoUISlider (http://refreshless.com/nouislider/)
 
 Many thanks for authors of these libraries
 
