@@ -75,5 +75,31 @@
 	<key name="admin_menu_about">
 		<value>About</value>
 	</key>
-	
+	<key name="popup_options">
+		<value>Popup Options</value>
+	</key>
+	<key name="popupListing_settings">
+		<value>Video Listing pages</value>
+	</key>
+	<key name="popupProfile_settings">
+		<value>Profile pages</value>
+	</key>
+	<key name="popupDashboard_settings">
+		<value>Dashboard</value>
+	</key>
+	<key name="popupListing_settings_desc">
+		<value>.</value>
+	</key>
+	<key name="popupProfile_settings_desc">
+		<value>Experiment feature !</value>
+	</key>
+	<key name="popupDashboard_settings_desc">
+		<value>Experiment feature !</value>
+	</key>
+	<key name="on">
+		<value>ON</value>
+	</key>
+	<key name="off">
+		<value>OFF</value>
+	</key>
 </prefix>

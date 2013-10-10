@@ -29,13 +29,19 @@ $("#borderSizeSlider").noUiSlider({
 	}
 });
 
-$("#toggler").toggles({
-	drag: false,
-	width: 60,
-	text: {
-		on: "YES",
-		off: "NO"
-	},
-	on: $("input[name=displayLogo]").is(':checked'),
-	checkbox: $("input[name=displayLogo]")
+$('input[type=checkbox]').each(function(index,obj){
+	if ($(obj).attr('id')=='chk_clearImage') return;
+	var togglerId = $(obj).attr('id')+'_toggler';
+	$(obj).parent().append('<div class="toggle-light" id="'+togglerId+'"></div>');
+	$('#'+togglerId).toggles({
+		drag: false,
+		width: 60,
+		text: {
+			on: text_ON,
+			off: text_OFF
+		},
+		on: $(obj).is(':checked'),
+		checkbox: $(obj)
+	});
+	$(obj).hide();
 });

@@ -111,13 +111,24 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			return;
 		}
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
+		if (intval($configs['popupDashboard'])==0 && self::isRoute( 'BASE_CTRL_ComponentPanel', 'dashboard' )) {
+			return; 
+		}
+
+		if (intval($configs['popupProfile'])==0 && ( self::isRoute( 'BASE_CTRL_ComponentPanel', 'profile' ) || self::isRoute( 'BASE_CTRL_ComponentPanel', 'myProfile' ) ) ) {
+			return; 
+		}
+
+		if (intval($configs['popupListing'])==0 && ( self::isRoute( 'VIDEO_CTRL_Video', 'viewList' ) || self::isRoute( 'VIDEO_CTRL_Video', 'viewUserVideoList' ) ) ) {
+			return; 
+		}
 
 		$videoUrlPrefix = OW::getRouter()->urlForRoute( 'view_clip' , array( 'id'=>'' ) );
 
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video' )->getStaticUrl(). 'js/video.js' );
 
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.css' );
-		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.js' );
+		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/jquery.fancybox.pack.js' );
 
 		OW::getDocument()->addStyleSheet( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'css/video_popup.css' );
 		OW::getDocument()->addScript( OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl(). 'js/fancybox/helpers/jquery.fancybox-buttons.js' );

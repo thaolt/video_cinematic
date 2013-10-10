@@ -80,6 +80,8 @@ class VIDEO_CINEMATIC_CTRL_Admin extends ADMIN_CTRL_Abstract
         $configSaveForm->getElement( 'popupDashboard' )->setValue( $configs['popupDashboard'] );
         $configSaveForm->getElement( 'popupProfile' )->setValue( $configs['popupProfile'] );
         $configSaveForm->getElement( 'popupListing' )->setValue( $configs['popupListing'] );
+        $this->assign('text_ON',$language->text( 'video_cinematic', 'on' ));
+        $this->assign('text_OFF',$language->text( 'video_cinematic', 'off' ));
 
         if ( !empty( $configs['logoFile'] ) )
             $this->assign( 'imgLogo', OW::getPluginManager()->getPlugin( 'video_cinematic' )->getUserFilesUrl().$configs['logoFile'] );

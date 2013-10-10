@@ -38,13 +38,18 @@ Licenses of them can be found in /docs/LICENSES/
 Changes Log
 -----------
 
-### 1.02.0
+### 1.2.1
+*   added settings for admin to enable/disable overlay player on dashboard/profile/listing
+*   minify JS & CSS
+*   clean-up un-used files
+
+### 1.2.0
 *   added feature: watch video directly from video listing page (by opening a fancybox)
 *   improved user interface
 *   improved admin interface and more settings
 *   fixed some minor bugs
 
-### 1.01.0
+### 1.1.0
 
 *   option to switch between presets: lite(thin border, no close button, no logo
 mark) and full (thick border with close button and logo mark)
@@ -52,11 +57,11 @@ mark) and full (thick border with close button and logo mark)
 *   added setting allows admins to display logo on video cinematic layer
 *   allow admins changing border color
 
-### 1.0.02
+### 1.0.2
 
 *   added a close cinematic mode button as requested
 
-### 1.0.01
+### 1.0.1
 
 *   correctly restore z-index css attribute of video div layer when closing
 cinematic mode
