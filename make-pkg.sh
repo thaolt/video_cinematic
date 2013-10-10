@@ -12,6 +12,7 @@ mkdir $DIR_BUILD
 cd $DIR_BUILD
 cp ../*.* .
 rm make-pkg.sh
+rm make-langs.sh
 cp -r ../classes ../controllers ../static ../update ../views ../lib .
 
 cd $DIR_LANGS
