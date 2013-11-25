@@ -111,6 +111,10 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 			return;
 		}
 		$configs = OW::getConfig()->getValues( 'video_cinematic' );
+
+		if (defined('VIDEO_CINEMATIC_DISABLE_POPUP')) // PHP version is less than requirement
+			return; 
+
 		if (intval($configs['popupDashboard'])==0 && self::isRoute( 'BASE_CTRL_ComponentPanel', 'dashboard' )) {
 			return; 
 		}

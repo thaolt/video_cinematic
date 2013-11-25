@@ -38,6 +38,9 @@ Licenses of them can be found in /docs/LICENSES/
 Changes Log
 -----------
 
+### 1.2.2
+*   feature: auto disabled all popup players if PHP version less than 5.3.0
+
 ### 1.2.1
 *   added settings for admin to enable/disable overlay player on dashboard/profile/listing
 *   minify JS & CSS

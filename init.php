@@ -1,4 +1,8 @@
 <?php
+//  checking PHP version
+if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+  define('VIDEO_CINEMATIC_DISABLE_POPUP',true);
+}
 // add auto loading for WideImage class
 OW::getAutoloader()->addClass('WideImage', OW_DIR_LIB . DS . 'wideimage' . DS . 'WideImage.php');
 
