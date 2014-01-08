@@ -17,6 +17,10 @@
     background: transparent url(../img/songphi.gif) no-repeat center left;
 }
 
+#CinemaLogo-delim {
+    display: none;
+}
+
 #CinemaLogo a {
     display:none;
 }
