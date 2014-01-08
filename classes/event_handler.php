@@ -151,7 +151,6 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				minWidth : 560,
 				maxWidth : 900,
 				maxHeight : 510,
-				minHeight : 510,
 				type: "ajax",
 				mouseWheel : false,
 				helpers : {
@@ -180,19 +179,37 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 				}
 			});
 		' );
+		if ( intval($configs['displayLogo'])==1 ) {
+			$cssFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/' . 'video_cinematic-full.css';
+			OW::getDocument()->addStyleSheet($cssFile);
+		}
+			
 	}
 
 	public static function on_collect_video_toolbar_items( BASE_CLASS_EventCollector $event ) {
+		$configs = OW::getConfig()->getValues( 'video_cinematic' );
 		if ( OW::getRequest()->isAjax() ) {
 			$args = OW::getRouter()->route();
+
+			if ( $configs['displayLogo']=='1' ) {
+				$event->add(
+					array(
+						'href' => 'javascript://',
+						'id' => 'CinemaLogo',
+						'label' => 'Powered By SONGPHI.NET',
+					)
+				);
+			}
+
 			$event->add(
 				array(
 					'href' => OW::getRouter()->urlForRoute( 'view_clip', $args['vars'] ),
-					'id' => '',
-					'class' => '',
+					'id' => 'cinematic-go-full',
 					'label' => OW::getLanguage()->text( 'video_cinematic', 'view_full_page' )
 				)
 			);
+
+			
 
 			OW::getDocument()->addOnloadScript( '
 				$(".btnSidebar").click(function() {
@@ -227,11 +244,12 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 				$(".ow_add_comments_form").scrollTop($(".ow_add_comments_form")[0].scrollHeight);
 
-			' );
-			return;
-		}
+				$("#CinemaLogo").show();
 
-		$configs = OW::getConfig()->getValues( 'video_cinematic' );
+			' );
+			
+			return;
+		}		
 
 		$cssFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'css/' . 'video_cinematic-full.css';
 		$jsFile = OW::getPluginManager()->getPlugin( 'video_cinematic' )->getStaticUrl().'js/' . 'video_cinematic-full.js';
