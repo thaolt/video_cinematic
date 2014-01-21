@@ -13,7 +13,10 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	 */
 	public static function getRoute() {
 		try {
-			return OW::getRouter()->route();
+			if (OW::getRouter())
+				return OW::getRouter()->route();
+			else 
+				return false;
 		} catch ( Exception $e ) {
 			return false;
 		}
