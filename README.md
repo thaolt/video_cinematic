@@ -38,6 +38,10 @@ Licenses of them can be found in /docs/LICENSES/
 Changes Log
 -----------
 
+### 1.2.3
+*   bugfix: display logo on the lightbox video player
+*   bugfix: correct lightbox (popup player) css
+
 ### 1.2.2
 *   feature: auto disabled all popup players if PHP version less than 5.3.0
 
