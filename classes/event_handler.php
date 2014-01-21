@@ -83,6 +83,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
 		$player = $html( '.ow_video_player', 0 );
 		$player->addClass( 'ow_left' );
+		$player->style = 'margin-bottom:10px';
 		$player->parent->removeClass( 'ow_superwide' );
 
 
