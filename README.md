@@ -38,6 +38,9 @@ Licenses of them can be found in /docs/LICENSES/
 Changes Log
 -----------
 
+### 1.2.4
+*   bugfix: routing handling causing fatal getDispatchAttr()
+
 ### 1.2.3
 *   bugfix: display logo on the lightbox video player
 *   bugfix: correct lightbox (popup player) css

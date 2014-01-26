@@ -13,6 +13,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	 */
 	public static function getRoute() {
     $route = OW::getRequestHandler()->getHandlerAttributes();
+
     if (is_array($route)) {
       return $route;
     }
@@ -36,7 +37,7 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 
     return false;
   }
-  
+
 	public static function on_ajax_video_view() {
 		if ( !self::isRoute( 'VIDEO_CTRL_Video', 'view' ) )
 			return;
