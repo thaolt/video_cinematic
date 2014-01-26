@@ -12,33 +12,31 @@ class VIDEO_CINEMATIC_CLASS_EventHandler {
 	 *
 	 */
 	public static function getRoute() {
-		try {
-			if (is_object(OW::getRouter()))
-				return OW::getRouter()->route();
-			else 
-				return false;
-		} catch ( Exception $e ) {
-			return false;
-		}
-	}
+    $route = OW::getRequestHandler()->getHandlerAttributes();
+    if (is_array($route)) {
+      return $route;
+    }
+    return false;
+  }
 
-	/**
-	 *
-	 */
-	public static function isRoute( $controller, $action = null ) {
-		$route = self::getRoute();
+  /**
+   *
+   */
+  public static function isRoute( $controller, $action = null ) {
+    $route = self::getRoute();
 
-		if ( $route == false )
-			return false;
+    if ( !$route )
+      return false;
 
-		if ( $route["controller"] == $controller ) {
-			if ( $route["action"] == $action || $action==null ) {
-				return true;
-			}
-		}
-		return false;
-	}
+    if ( $route["controller"] == $controller ) {
+      if ( $route["action"] == $action || !$action ) {
+        return true;
+      }
+    }
 
+    return false;
+  }
+  
 	public static function on_ajax_video_view() {
 		if ( !self::isRoute( 'VIDEO_CTRL_Video', 'view' ) )
 			return;
